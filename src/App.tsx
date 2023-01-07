@@ -27,7 +27,7 @@ function App() {
       0.1,
       1000
     );
-    camera.position.set(-0.5, -0.2, 1);
+    camera.position.set(-7.8, 3, 17);
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
@@ -48,15 +48,25 @@ function App() {
     //GLTGLoader
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath("/draco/");
+    console.log(dracoLoader);
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.setDRACOLoader(dracoLoader);
 
-    gltfLoader.load("./models/shiba.gltf", (gltf) => {
+    let mixer: THREE.AnimationMixer;
+    gltfLoader.load("./models/dog.gltf", (gltf) => {
       model = gltf.scene;
-      model.scale.set(0.64, 0.64, 0.64);
-      model.rotation.y = -Math.PI / 3;
+      model.scale.set(0.14, 0.14, 0.14);
+      model.rotation.y = -Math.PI / 4;
+      model.rotation.x = Math.PI / 6;
       scene.add(model);
+
+      mixer = new THREE.AnimationMixer(model);
+      const clips = gltf.animations;
+      clips.forEach(function (clip) {
+        const action = mixer.clipAction(clip);
+        action.play();
+      });
     });
 
     //アニメーション
@@ -65,11 +75,16 @@ function App() {
     const tick = () => {
       const elpasedTime = clock.getElapsedTime();
       const deltaTime = elpasedTime - previousTime;
+      previousTime = elpasedTime;
       if (model) {
-        model.rotation.set(elpasedTime * 0, -elpasedTime * 0.2, 0);
+        // model.rotation.set(elpasedTime * 0, -elpasedTime * 0.2, 0);
       }
-      renderer.render(scene, camera);
 
+      if (mixer) {
+        mixer.update(deltaTime * 0.8);
+      }
+
+      renderer.render(scene, camera);
       window.requestAnimationFrame(tick);
     };
 
@@ -78,8 +93,8 @@ function App() {
     // ライト
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff, 0.7);
-    pointLight.position.set(1, 1, 1);
+    const pointLight = new THREE.PointLight(0xffffff, 2);
+    pointLight.position.set(-9, 6, 6);
     scene.add(pointLight);
 
     // ブラウザのリサイズ処理
@@ -99,7 +114,7 @@ function App() {
       <canvas id="canvas" className="canvas"></canvas>
       <div className="mainContent">
         <h3>Shin Code</h3>
-        <span>3DModel Website</span>
+        <p>WebDeveloper</p>
       </div>
     </>
   );
