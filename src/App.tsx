@@ -27,7 +27,8 @@ function App() {
       0.1,
       1000
     );
-    camera.position.set(-7.8, 3, 17);
+    // camera.position.set(-7.8, 3, 17);
+    camera.position.set(-4.8, 2, 9);
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
@@ -54,11 +55,13 @@ function App() {
     gltfLoader.setDRACOLoader(dracoLoader);
 
     let mixer: THREE.AnimationMixer;
-    gltfLoader.load("./models/dog.gltf", (gltf) => {
+    gltfLoader.load("./models/gltf/Wolf.gltf", (gltf) => {
       model = gltf.scene;
-      model.scale.set(0.14, 0.14, 0.14);
-      model.rotation.y = -Math.PI / 4;
-      model.rotation.x = Math.PI / 6;
+      // model.scale.set(0.14, 0.14, 0.14);
+      model.scale.set(9.14, 9.14, 9.14);
+      // model.rotation.y = -Math.PI / 4;
+      model.rotation.y = -Math.PI / 3;
+      // model.rotation.x = Math.PI / 6;
       scene.add(model);
 
       mixer = new THREE.AnimationMixer(model);
@@ -94,12 +97,15 @@ function App() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 3, 100);
-    pointLight.position.set(-15, 7, 7);
+    const pointLight = new THREE.PointLight(0xffffff, 2, 100);
+    pointLight.position.set(-10, 8, 7);
     scene.add(pointLight);
     const sphereSize = 1;
     const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
     scene.add(pointLightHelper);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    scene.add(directionalLight);
 
     // const pointLight = new THREE.PointLight(0xffffff, 2);
     // pointLight.position.set(-1, 1, 1);
