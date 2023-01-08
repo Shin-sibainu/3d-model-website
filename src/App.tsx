@@ -93,9 +93,17 @@ function App() {
     // ライト
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff, 2);
-    pointLight.position.set(-9, 6, 6);
+
+    const pointLight = new THREE.PointLight(0xffffff, 3, 100);
+    pointLight.position.set(-15, 7, 7);
     scene.add(pointLight);
+    const sphereSize = 1;
+    const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
+    scene.add(pointLightHelper);
+
+    // const pointLight = new THREE.PointLight(0xffffff, 2);
+    // pointLight.position.set(-1, 1, 1);
+    // scene.add(pointLight);
 
     // ブラウザのリサイズ処理
     window.addEventListener("resize", () => {
